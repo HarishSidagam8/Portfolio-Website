@@ -88,33 +88,36 @@ export const ResumeSection = () => {
     <section id="resume" className="section">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-12">
-          <h2 className="section-title">My Resume</h2>
-          <Button onClick={handleDownloadResume} className="mt-4 md:mt-0 flex items-center">
+          <h2 className="section-title mb-6 md:mb-0">My Resume</h2>
+          <Button onClick={handleDownloadResume} className="bg-primary hover:bg-primary/90 btn-hover" size="lg">
             <Download className="mr-2 h-4 w-4" />
             Download Resume
           </Button>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
           {/* Experience */}
           <div>
-            <h3 className="text-2xl font-semibold mb-6 flex items-center">
-              <span className="w-8 h-8 rounded-full bg-highlight/20 text-highlight flex items-center justify-center mr-3">E</span>
+            <h3 className="text-2xl font-semibold mb-8 flex items-center">
+              <span className="w-10 h-10 rounded-xl bg-primary/20 text-primary flex items-center justify-center mr-3 text-lg font-bold">E</span>
               Experience
             </h3>
             
             <div className="space-y-8">
-              {EXPERIENCES.map((exp) => (
-                <div key={exp.id} className="fade-in-section relative border-l-2 border-muted pl-6 pb-6">
-                  <div className="absolute w-4 h-4 bg-background border-2 border-highlight rounded-full -left-[9px] top-0" />
-                  <div>
-                    <p className="text-highlight">{exp.period}</p>
+              {EXPERIENCES.map((exp, index) => (
+                <div key={exp.id} className="fade-in-section relative border-l-2 border-primary/30 pl-8 pb-8" style={{ animationDelay: `${0.2 * index}s` }}>
+                  <div className="absolute w-5 h-5 bg-background dark:bg-secondary border-2 border-primary rounded-full -left-[11px] top-0" />
+                  <div className="bg-background/60 dark:bg-secondary/40 backdrop-blur-sm p-6 rounded-xl shadow-soft">
+                    <div className="inline-block px-3 py-1 mb-3 rounded-md text-sm font-medium bg-primary/10 text-primary">{exp.period}</div>
                     <h4 className="text-xl font-medium mt-1">{exp.role}</h4>
-                    <p className="text-muted-foreground">{exp.company}</p>
-                    <p className="mt-2">{exp.description}</p>
-                    <ul className="list-disc pl-5 mt-3 space-y-1">
-                      {exp.responsibilities.map((resp, index) => (
-                        <li key={index} className="text-muted-foreground">{resp}</li>
+                    <p className="text-primary mb-2">{exp.company}</p>
+                    <p className="text-muted-foreground mb-4">{exp.description}</p>
+                    <ul className="space-y-2 mt-3">
+                      {exp.responsibilities.map((resp, i) => (
+                        <li key={i} className="flex items-start text-muted-foreground">
+                          <span className="w-2 h-2 bg-primary rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                          <span>{resp}</span>
+                        </li>
                       ))}
                     </ul>
                   </div>
@@ -125,20 +128,20 @@ export const ResumeSection = () => {
           
           {/* Education */}
           <div>
-            <h3 className="text-2xl font-semibold mb-6 flex items-center">
-              <span className="w-8 h-8 rounded-full bg-highlight/20 text-highlight flex items-center justify-center mr-3">E</span>
+            <h3 className="text-2xl font-semibold mb-8 flex items-center">
+              <span className="w-10 h-10 rounded-xl bg-primary/20 text-primary flex items-center justify-center mr-3 text-lg font-bold">E</span>
               Education
             </h3>
             
             <div className="space-y-8">
-              {EDUCATION.map((edu) => (
-                <div key={edu.id} className="fade-in-section relative border-l-2 border-muted pl-6 pb-6">
-                  <div className="absolute w-4 h-4 bg-background border-2 border-highlight rounded-full -left-[9px] top-0" />
-                  <div>
-                    <p className="text-highlight">{edu.period}</p>
+              {EDUCATION.map((edu, index) => (
+                <div key={edu.id} className="fade-in-section relative border-l-2 border-primary/30 pl-8 pb-8" style={{ animationDelay: `${0.2 * index}s` }}>
+                  <div className="absolute w-5 h-5 bg-background dark:bg-secondary border-2 border-primary rounded-full -left-[11px] top-0" />
+                  <div className="bg-background/60 dark:bg-secondary/40 backdrop-blur-sm p-6 rounded-xl shadow-soft">
+                    <div className="inline-block px-3 py-1 mb-3 rounded-md text-sm font-medium bg-primary/10 text-primary">{edu.period}</div>
                     <h4 className="text-xl font-medium mt-1">{edu.degree}</h4>
-                    <p className="text-muted-foreground">{edu.institution}</p>
-                    <p className="mt-2">{edu.description}</p>
+                    <p className="text-primary mb-4">{edu.institution}</p>
+                    <p className="text-muted-foreground">{edu.description}</p>
                   </div>
                 </div>
               ))}
@@ -146,23 +149,23 @@ export const ResumeSection = () => {
             
             {/* Certifications */}
             <div className="mt-12">
-              <h3 className="text-2xl font-semibold mb-6 flex items-center">
-                <span className="w-8 h-8 rounded-full bg-highlight/20 text-highlight flex items-center justify-center mr-3">C</span>
+              <h3 className="text-2xl font-semibold mb-8 flex items-center">
+                <span className="w-10 h-10 rounded-xl bg-primary/20 text-primary flex items-center justify-center mr-3 text-lg font-bold">C</span>
                 Certifications
               </h3>
               
-              <div className="fade-in-section space-y-4">
-                <div className="flex justify-between items-center">
+              <div className="fade-in-section bg-background/60 dark:bg-secondary/40 backdrop-blur-sm p-6 rounded-xl shadow-soft space-y-4">
+                <div className="flex justify-between items-center pb-3 border-b border-border">
                   <span className="font-medium">AWS Certified Developer</span>
-                  <span className="text-highlight">2022</span>
+                  <span className="text-primary">2022</span>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center py-3 border-b border-border">
                   <span className="font-medium">React Advanced Certification</span>
-                  <span className="text-highlight">2021</span>
+                  <span className="text-primary">2021</span>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center pt-3">
                   <span className="font-medium">Google UX Design Professional</span>
-                  <span className="text-highlight">2020</span>
+                  <span className="text-primary">2020</span>
                 </div>
               </div>
             </div>

@@ -77,7 +77,7 @@ export const ProjectsSection = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   return (
-    <section id="projects" className="section bg-secondary/50 dark:bg-secondary/10">
+    <section id="projects" className="section bg-secondary/30 dark:bg-secondary/80">
       <div className="container mx-auto px-4">
         <h2 className="section-title">My Projects</h2>
         <p className="text-muted-foreground max-w-2xl mt-4 mb-12">
@@ -86,35 +86,51 @@ export const ProjectsSection = () => {
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-          {PROJECTS.map((project) => (
+          {PROJECTS.map((project, index) => (
             <div 
               key={project.id} 
-              className="bg-card rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 fade-in-section"
+              className="bg-background dark:bg-secondary/50 rounded-2xl overflow-hidden shadow-soft hover:shadow-card transition-all duration-300 hover:-translate-y-2 fade-in-section"
+              style={{ animationDelay: `${0.2 * index}s` }}
               onClick={() => setSelectedProject(project)}
             >
               <div className="aspect-video relative overflow-hidden">
+                <div className="absolute inset-0 bg-primary/30 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <Button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedProject(project);
+                    }}
+                    className="bg-white text-primary hover:bg-white/90 shadow-button"
+                  >
+                    View Details
+                  </Button>
+                </div>
                 <img 
                   src={project.image} 
                   alt={project.title} 
-                  className="w-full h-full object-cover transition-transform hover:scale-105 duration-500"
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                <p className="text-muted-foreground mb-4">{project.description}</p>
+                <h3 className="text-xl font-semibold mb-3">{project.title}</h3>
+                <p className="text-muted-foreground mb-4 line-clamp-2">{project.description}</p>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.tags.map((tag) => (
                     <span 
                       key={tag} 
-                      className="text-xs bg-secondary px-2 py-1 rounded-full text-foreground/80"
+                      className="text-xs bg-primary/10 dark:bg-primary/20 text-primary px-3 py-1 rounded-full font-medium"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
                 <Button 
-                  onClick={() => setSelectedProject(project)}
-                  className="w-full"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedProject(project);
+                  }}
+                  className="w-full btn-hover"
+                  variant="outline"
                 >
                   View Details
                 </Button>
@@ -126,14 +142,14 @@ export const ProjectsSection = () => {
       
       <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
         {selectedProject && (
-          <DialogContent className="max-w-3xl">
+          <DialogContent className="max-w-3xl bg-background/95 backdrop-blur-md border-border/20 dark:bg-secondary/90">
             <DialogHeader>
-              <DialogTitle className="text-2xl">{selectedProject.title}</DialogTitle>
+              <DialogTitle className="text-2xl font-bold text-foreground">{selectedProject.title}</DialogTitle>
               <DialogDescription className="flex flex-wrap gap-2 mt-2">
                 {selectedProject.tags.map((tag) => (
                   <span 
                     key={tag} 
-                    className="text-xs bg-secondary px-2 py-1 rounded-full text-foreground/80"
+                    className="text-xs bg-primary/10 dark:bg-primary/20 text-primary px-3 py-1 rounded-full font-medium"
                   >
                     {tag}
                   </span>
@@ -142,7 +158,7 @@ export const ProjectsSection = () => {
             </DialogHeader>
             
             <div className="mt-4">
-              <div className="aspect-video rounded-lg overflow-hidden mb-6">
+              <div className="aspect-video rounded-xl overflow-hidden mb-6 shadow-soft">
                 <img 
                   src={selectedProject.image} 
                   alt={selectedProject.title} 
@@ -151,20 +167,23 @@ export const ProjectsSection = () => {
               </div>
               
               <div className="space-y-4">
-                <p>{selectedProject.longDescription}</p>
+                <p className="text-muted-foreground">{selectedProject.longDescription}</p>
                 
-                <div>
-                  <h4 className="font-semibold text-lg mb-2">Key Features:</h4>
-                  <ul className="list-disc pl-5 space-y-1">
+                <div className="bg-secondary/50 dark:bg-secondary/30 rounded-xl p-4">
+                  <h4 className="font-semibold text-lg mb-3 text-foreground">Key Features:</h4>
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2">
                     {selectedProject.features.map((feature, index) => (
-                      <li key={index}>{feature}</li>
+                      <li key={index} className="flex items-center">
+                        <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                        <span className="text-muted-foreground">{feature}</span>
+                      </li>
                     ))}
                   </ul>
                 </div>
                 
                 <div className="flex flex-wrap gap-4 pt-4">
                   {selectedProject.liveUrl && (
-                    <Button asChild>
+                    <Button asChild className="btn-hover">
                       <a href={selectedProject.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center">
                         <ExternalLink className="mr-2 h-4 w-4" />
                         Live Demo
@@ -173,7 +192,7 @@ export const ProjectsSection = () => {
                   )}
                   
                   {selectedProject.githubUrl && (
-                    <Button variant="outline" asChild>
+                    <Button variant="outline" asChild className="border-primary text-primary hover:bg-primary/5 btn-hover">
                       <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center">
                         <Github className="mr-2 h-4 w-4" />
                         View Code
